@@ -1,0 +1,72 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <p class="hero-kicker">{{ copy.hero_kicker }} · Chile</p>
+      <h1>Astracore Group</h1>
+      <p class="hero-statement">{{ brand_statement }}</p>
+      <p class="hero-body">{{ copy.hero_body }}</p>
+      <div class="hero-actions">
+        <a href="{% url 'home:about' lang=current_lang %}" class="btn btn-primary">{{ copy.hero_cta_primary }} <span aria-hidden="true">→</span></a>
+        <a href="{% url 'home:contact' lang=current_lang %}" class="btn btn-ghost">{{ copy.hero_cta_secondary }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="container intro-grid">
+    <div>
+      <p class="section-kicker">{{ copy.home_sections.presentation_kicker }}</p>
+      <h2>{{ copy.home_sections.presentation_title }}</h2>
+    </div>
+    <div>
+      <p class="intro-lead">{{ copy.home_sections.presentation_text }}</p>
+      <a class="text-link" href="{% url 'home:about' lang=current_lang %}">{{ copy.hero_cta_primary }} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt reveal">
+  <div class="container">
+    <div class="section-heading">
+      <div><p class="section-kicker">{{ copy.home_sections.value_creation_kicker }}</p><h2>{{ copy.home_sections.value_creation_title }}</h2></div>
+      <a class="text-link" href="{% url 'home:services' lang=current_lang %}">{{ copy.nav.services }} <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="card-grid">
+      {% for pillar in copy.home_sections.pillars %}
+      <article class="glass-card">
+        <span class="pillar-number">0{{ forloop.counter }}</span>
+        <h3>{{ pillar.title }}</h3>
+        <p>{{ pillar.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="horizon-section reveal">
+  <div class="container horizon-content">
+    <p class="section-kicker">{{ copy.home_sections.horizon_kicker }}</p>
+    <h2>{{ copy.home_sections.horizon_title }}</h2>
+    <p>{{ copy.home_sections.horizon_text }}</p>
+    <a class="btn btn-ghost" href="{% url 'home:services' lang=current_lang %}">{{ copy.nav.services }} <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section class="section home-contact reveal">
+  <div class="container intro-grid">
+    <div>
+      <p class="section-kicker">{{ copy.nav.contact }}</p>
+      <h2>{{ copy.home_sections.contact_title }}</h2>
+    </div>
+    <div>
+      <p class="intro-lead">{{ copy.home_sections.contact_text }}</p>
+      <a class="text-link" href="{% url 'home:contact' lang=current_lang %}">{{ copy.hero_cta_secondary }} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}

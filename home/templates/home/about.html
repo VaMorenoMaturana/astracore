@@ -1,0 +1,89 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="about-hero reveal">
+  <div class="container about-hero-content">
+    <p class="about-eyebrow">{{ copy.about.eyebrow }}</p>
+    <h1>{{ copy.about.hero_title }}</h1>
+    <span class="about-rule" aria-hidden="true"></span>
+    <p>{{ copy.about.lead }}</p>
+  </div>
+</section>
+
+<section class="about-history reveal">
+  <div class="container history-grid">
+    <div class="history-copy">
+      <p class="section-kicker">{{ copy.about.history_kicker }}</p>
+      <h2>{{ copy.about.history_title }}</h2>
+      <span class="about-rule" aria-hidden="true"></span>
+      <p>{{ copy.about.history_text }}</p>
+    </div>
+    <figure class="history-image">
+      <img src="{% static 'home/images/Fotos para la web/Andean Peaks at Sunrise.png' %}" alt="{{ copy.about.history_image_alt }}" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<section class="about-purpose-band reveal">
+  <div class="container about-purpose-grid">
+    <div class="about-purpose-intro">
+      <p class="about-eyebrow">{{ copy.about.purpose_kicker }}</p>
+      <h2>{{ copy.about.purpose_title }}</h2>
+      <span class="about-rule" aria-hidden="true"></span>
+    </div>
+    <div class="about-principles">
+      <article class="about-principle">
+        <span class="principle-number">01</span>
+        <div><h3>{{ copy.about.mission_title }}</h3><p>{{ copy.about.mission_text }}</p></div>
+      </article>
+      <article class="about-principle">
+        <span class="principle-number">02</span>
+        <div><h3>{{ copy.about.vision_title }}</h3><p>{{ copy.about.vision_text }}</p></div>
+      </article>
+      <div class="about-values">
+        <h3>{{ copy.about.values_title }}</h3>
+        <div class="about-value-list">
+          {% for value in copy.about.values %}<span>{{ value }}</span>{% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-team section reveal">
+  <div class="container">
+    <div class="about-team-intro">
+      <div>
+        <p class="section-kicker">{{ copy.about.team_kicker }}</p>
+        <h2>{{ copy.about.team_title }}</h2>
+      </div>
+      <p>{{ copy.about.team_text }}</p>
+    </div>
+    <div class="founder-grid">
+      {% for founder in copy.about.founders %}
+      <article class="founder-card">
+        <div class="founder-photo-slot">
+          <img src="{% static founder.photo %}" alt="{{ founder.photo_alt }}" loading="lazy">
+        </div>
+        <div class="founder-info"><p>{{ founder.role }}</p><h3>{{ founder.name }}</h3></div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="about-commitment reveal">
+  <div class="container commitment-grid">
+    <div>
+      <p class="about-eyebrow">{{ copy.about.commitment_kicker }}</p>
+      <h2>{{ copy.about.commitment_title }}</h2>
+      <span class="about-rule" aria-hidden="true"></span>
+    </div>
+    <div>
+      <p>{{ copy.about.commitment_text }}</p>
+      <a class="btn btn-ghost" href="{% url 'home:contact' lang=current_lang %}">{{ copy.about.contact_link }} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}

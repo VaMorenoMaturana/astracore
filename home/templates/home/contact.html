@@ -1,0 +1,69 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<section class="contact-hero reveal">
+  <div class="container">
+    <p class="contact-eyebrow">{{ copy.nav.contact }}</p>
+    <h1>{{ copy.contact.title }}</h1>
+    <p>{{ copy.contact.lead }}</p>
+  </div>
+</section>
+
+<section class="contact-content-section reveal">
+  <div class="container contact-layout">
+    <aside class="contact-details">
+      <p class="section-kicker">{{ copy.contact.details_title }}</p>
+      <div class="contact-detail-row">
+        <span class="contact-detail-number">01</span>
+        <div>
+          <h2>{{ copy.contact.email_label }}</h2>
+          <a href="mailto:{{ copy.contact.email }}">{{ copy.contact.email }}</a>
+        </div>
+      </div>
+      <div class="contact-detail-row">
+        <span class="contact-detail-number">02</span>
+        <div>
+          <h2>{{ copy.contact.address_label }}</h2>
+          <address>{{ copy.contact.address_line_1 }}<br>{{ copy.contact.address_line_2 }}</address>
+        </div>
+      </div>
+    </aside>
+
+    <div class="form-shell contact-form-shell">
+      <div class="contact-form-heading">
+        <h2>{{ copy.contact.form_title }}</h2>
+        <p>{{ copy.contact.form_lead }}</p>
+      </div>
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="flash-success" role="status">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" class="contact-form">
+      {% csrf_token %}
+      {{ form.honeypot }}
+
+      <label for="id_full_name">{{ copy.contact.form.full_name }}</label>
+      {{ form.full_name }}
+      {% if form.full_name.errors %}<p class="field-error">{{ form.full_name.errors.0 }}</p>{% endif %}
+
+      <label for="id_email">{{ copy.contact.form.email }}</label>
+      {{ form.email }}
+      {% if form.email.errors %}<p class="field-error">{{ form.email.errors.0 }}</p>{% endif %}
+
+      <label for="id_organization">{{ copy.contact.form.organization }}</label>
+      {{ form.organization }}
+      {% if form.organization.errors %}<p class="field-error">{{ form.organization.errors.0 }}</p>{% endif %}
+
+      <label for="id_message">{{ copy.contact.form.message }}</label>
+      {{ form.message }}
+      {% if form.message.errors %}<p class="field-error">{{ form.message.errors.0 }}</p>{% endif %}
+
+      <button class="btn btn-primary" type="submit">{{ copy.contact.form.submit }}</button>
+    </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

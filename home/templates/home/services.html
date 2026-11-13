@@ -1,0 +1,78 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<section class="services-hero reveal">
+  <div class="container services-hero-content">
+    <p class="services-eyebrow">{{ copy.services.eyebrow }}</p>
+    <h1>{{ copy.services.hero_title }}</h1>
+    <span class="about-rule" aria-hidden="true"></span>
+    <p>{{ copy.services.lead }}</p>
+    <a class="btn btn-primary" href="{% url 'home:contact' lang=current_lang %}">{{ copy.services.hero_cta }} <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section class="services-overview reveal">
+  <div class="container services-overview-grid">
+    <div>
+      <p class="section-kicker">{{ copy.nav.services }}</p>
+      <h2>{{ copy.services.intro_title }}</h2>
+    </div>
+    <div>
+      <p>{{ copy.services.intro_text }}</p>
+      <small>{{ copy.services.scope_note }}</small>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt services-capabilities reveal">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">{{ copy.services.eyebrow }}</p>
+        <h2>{{ copy.services.capabilities_title }}</h2>
+      </div>
+      <p>{{ copy.services.capabilities_lead }}</p>
+    </div>
+    <div class="service-capability-grid">
+    {% for card in copy.services.cards %}
+    <article class="service-capability">
+      <span class="pillar-number">0{{ forloop.counter }}</span>
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.text }}</p>
+    </article>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="services-considerations reveal">
+  <div class="container">
+    <div class="services-considerations-head">
+      <div>
+        <p class="services-eyebrow">{{ copy.services.considerations_kicker }}</p>
+        <h2>{{ copy.services.considerations_title }}</h2>
+      </div>
+      <p>{{ copy.services.considerations_lead }}</p>
+    </div>
+    <div class="consideration-grid">
+      {% for item in copy.services.considerations %}
+      <article class="consideration-item">
+        <span>0{{ forloop.counter }}</span>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="services-contact reveal">
+  <div class="container services-contact-grid">
+    <h2>{{ copy.services.contact_title }}</h2>
+    <div>
+      <p>{{ copy.services.contact_text }}</p>
+      <a class="btn btn-primary" href="{% url 'home:contact' lang=current_lang %}">{{ copy.services.hero_cta }} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}

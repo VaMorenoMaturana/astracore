@@ -1,0 +1,111 @@
+{% load static %}
+<!doctype html>
+<html lang="{{ current_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ copy.site_title }}</title>
+  <meta name="description" content="{{ copy.meta_description }}">
+  <meta property="og:title" content="{{ copy.site_title }}">
+  <meta property="og:description" content="{{ copy.meta_description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://astracore.cl{{ request.path }}">
+  <meta name="theme-color" content="#182334">
+  <link rel="icon" type="image/png" href="{% static 'home/images/Logos/logo-cabecera.png' %}?v=20261113">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/css/style.css' %}?v=20261113-16">
+  {% block head_extra %}{% endblock %}
+</head>
+<body{% if current_view == 'home' %} class="home-page"{% endif %}>
+  <a class="skip-link" href="#main-content">{% if current_lang == 'es' %}Ir al contenido{% else %}Skip to content{% endif %}</a>
+  <div class="site-shell">
+    <header class="site-header" data-header>
+      <div class="container nav-wrap">
+        <a class="brand" href="{% url 'home:home' lang=current_lang %}" aria-label="Astracore Group">
+          <img src="{% static 'home/images/Logos/logo-cabecera.png' %}" alt="" class="brand-mark">
+          <span class="brand-copy">
+            <span class="brand-name">Astracore</span>
+            <span class="brand-tagline">{{ brand_statement }}</span>
+          </span>
+        </a>
+        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="{% if current_lang == 'es' %}Menú de navegación{% else %}Navigation menu{% endif %}">
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="main-nav" class="main-nav" data-main-nav aria-label="{% if current_lang == 'es' %}Navegación principal{% else %}Main navigation{% endif %}">
+          {% for item in nav_items %}
+            {% if item.key == 'home' %}
+              <a href="{% url 'home:home' lang=current_lang %}" {% if current_view == 'home' %}class="active"{% endif %}>{{ copy.nav.home }}</a>
+            {% elif item.key == 'about' %}
+              <a href="{% url 'home:about' lang=current_lang %}" {% if current_view == 'about' %}class="active"{% endif %}>{{ copy.nav.about }}</a>
+            {% elif item.key == 'services' %}
+              <a href="{% url 'home:services' lang=current_lang %}" {% if current_view == 'services' %}class="active"{% endif %}>{{ copy.nav.services }}</a>
+            {% elif item.key == 'contact' %}
+              <a href="{% url 'home:contact' lang=current_lang %}" {% if current_view == 'contact' %}class="active"{% endif %}>{{ copy.nav.contact }}</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
+        <div class="lang-switch" aria-label="{% if current_lang == 'es' %}Idioma{% else %}Language{% endif %}">
+          {% if current_view == 'about' %}
+            <a href="{% url 'home:about' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:about' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% elif current_view == 'services' %}
+            <a href="{% url 'home:services' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:services' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% elif current_view == 'contact' %}
+            <a href="{% url 'home:contact' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:contact' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% else %}
+            <a href="{% url 'home:home' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:home' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-identity">
+            <img src="{% static 'home/images/Logos/Logo_oscuro.png' %}" alt="Astracore Group" class="footer-logo">
+            <div>
+              <p class="footer-name">Astracore Group</p>
+              <p class="footer-statement">{{ brand_statement }}</p>
+            </div>
+          </div>
+
+          <nav class="footer-column" aria-label="{% if current_lang == 'es' %}Navegación del pie de página{% else %}Footer navigation{% endif %}">
+            <h2>{{ copy.footer_menu_title }}</h2>
+            <a href="{% url 'home:home' lang=current_lang %}">{{ copy.nav.home }}</a>
+            <a href="{% url 'home:about' lang=current_lang %}">{{ copy.nav.about }}</a>
+            <a href="{% url 'home:services' lang=current_lang %}">{{ copy.nav.services }}</a>
+            <a href="{% url 'home:contact' lang=current_lang %}">{{ copy.nav.contact }}</a>
+          </nav>
+
+          <div class="footer-column">
+            <h2>{{ copy.footer_social_title }}</h2>
+            <a class="footer-social" href="https://www.instagram.com/astra.core9/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Astracore Group, abre en una pestaña nueva"><b aria-hidden="true">ig</b>Instagram</a>
+            <a class="footer-social" href="https://www.linkedin.com/in/astracore-spa-83016a449/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Astracore Group, abre en una pestaña nueva"><b aria-hidden="true">in</b>LinkedIn</a>
+          </div>
+
+          <div class="footer-column footer-contact">
+            <h2>{{ copy.footer_contact_title }}</h2>
+            <a href="mailto:contacto@astracore.cl">contacto@astracore.cl</a>
+            <p class="footer-address-label">{{ copy.footer_address_label }}</p>
+            <address>Av. Villanelo 180, Of. 606<br>Viña del Mar, Chile</address>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p class="footer-copy">{{ copy.footer_legal }}</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="{% static 'home/js/main.js' %}?v=20261112" defer></script>
+</body>
+</html>
