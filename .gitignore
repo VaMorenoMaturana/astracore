@@ -3,6 +3,7 @@ __pycache__/
 *.sqlite3
 *.sqlite3.bak*
 .env
+render.production.env
 venv/
 env/
 .venv/

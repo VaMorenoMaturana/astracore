@@ -1,13 +1,28 @@
 from pathlib import Path
 import os
 
+import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
-SECRET_KEY = os.environ["SECRET_KEY"] if not DEBUG else os.environ.get("SECRET_KEY", "dev-only-insecure-key")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-insecure-key" if DEBUG else "").strip()
+if not DEBUG and (not SECRET_KEY or SECRET_KEY.startswith("REPLACE_")):
+    raise ImproperlyConfigured("Set a generated SECRET_KEY in the production environment.")
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME", "").strip()
 
 if not DEBUG:
-    ALLOWED_HOSTS = [host.strip() for host in os.environ["ALLOWED_HOSTS"].split(",") if host.strip()]
+    ALLOWED_HOSTS = [
+        host.strip()
+        for host in os.environ.get("ALLOWED_HOSTS", "").split(",")
+        if host.strip()
+    ]
+    if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    if not ALLOWED_HOSTS:
+        raise ImproperlyConfigured("Set ALLOWED_HOSTS in the production environment.")
 else:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"] + [
         host.strip()
@@ -15,11 +30,15 @@ else:
         if host.strip()
     ]
 
-CSRF_TRUSTED_ORIGINS = (
-    [origin.strip() for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if origin.strip()]
-    if os.environ.get("CSRF_TRUSTED_ORIGINS")
-    else []
-)
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+if not DEBUG and RENDER_EXTERNAL_HOSTNAME:
+    render_origin = f"https://{RENDER_EXTERNAL_HOSTNAME}"
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(render_origin)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -62,12 +81,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+if DATABASE_URL:
+    if DATABASE_URL.startswith("REPLACE_"):
+        raise ImproperlyConfigured("Set DATABASE_URL to the Render Postgres internal URL.")
+    DATABASES = {
+        "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=600),
     }
-}
+elif DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    raise ImproperlyConfigured("Set DATABASE_URL to a persistent production database.")
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
