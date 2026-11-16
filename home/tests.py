@@ -10,6 +10,15 @@ from .models import ContactLead
 
 
 class InstitutionalContentTests(SimpleTestCase):
+    def test_robots_txt_allows_crawling_and_links_to_sitemap(self):
+        response = self.client.get(reverse("robots"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response["Content-Type"].startswith("text/plain"))
+        self.assertEqual(
+            response.content.decode(),
+            "User-agent: *\nAllow: /\n\nSitemap: https://astracore.cl/sitemap.xml",
+        )
+
     @override_settings(ALLOWED_HOSTS=["astracore.cl"])
     def test_sitemap_lists_each_public_page_in_all_languages(self):
         response = self.client.get(reverse("sitemap"), HTTP_HOST="astracore.cl")
