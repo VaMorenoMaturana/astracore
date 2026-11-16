@@ -44,7 +44,7 @@
       <div class="about-values">
         <h3>{{ copy.about.values_title }}</h3>
         <div class="about-value-list">
-          {% for value in copy.about.values %}<span>{{ value }}</span>{% endfor %}
+          {% for value in copy.about.values %}<div><strong>{{ value.title }}</strong><p>{{ value.text }}</p></div>{% endfor %}
         </div>
       </div>
     </div>
@@ -71,6 +71,7 @@
           <h3>{{ founder.name }}</h3>
           <a class="founder-linkedin" href="{{ founder.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{% if current_lang == 'es' %}LinkedIn de {{ founder.name }} (abre en una pestaña nueva){% else %}{{ founder.name }} on LinkedIn (opens in a new tab){% endif %}"><span aria-hidden="true">in</span> LinkedIn</a>
         </div>
+        {% if founder.biography %}<p class="founder-biography">{{ founder.biography }}</p>{% endif %}
       </article>
       {% endfor %}
     </div>

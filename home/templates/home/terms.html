@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<section class="legal-hero reveal">
+  <div class="container">
+    <p class="legal-date">{{ copy.terms.updated }}</p>
+    <h1>{{ copy.terms.title }}</h1>
+    <p>{{ copy.terms.intro }}</p>
+  </div>
+</section>
+
+<section class="legal-content reveal">
+  <div class="container legal-content-inner">
+    {% for section in copy.terms.sections %}
+    <article class="legal-section">
+      <h2>{{ section.title }}</h2>
+      {% for paragraph in section.paragraphs %}
+        <p>{{ paragraph }}{% if section.privacy_link %} <a href="{% url 'home:privacy' lang=current_lang %}">{{ copy.privacy.title }}</a>.{% endif %}</p>
+      {% endfor %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

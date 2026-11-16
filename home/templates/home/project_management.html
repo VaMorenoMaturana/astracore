@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<section class="services-hero reveal">
+  <div class="container services-hero-content">
+    <p class="services-eyebrow">{{ copy.nav.projects }}</p>
+    <h1>{{ copy.project_management.title }}</h1>
+    <span class="about-rule" aria-hidden="true"></span>
+    <p>{{ copy.project_management.intro }}</p>
+    <a class="btn btn-primary" href="{% url 'home:contact' lang=current_lang %}?interest=project_management">{{ copy.project_management.cta_button }} <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+<section class="section section-alt reveal">
+  <div class="container">
+    <p class="section-kicker">{{ copy.nav.projects }}</p>
+    <h2>{{ copy.project_management.stages_title }}</h2>
+    <div class="service-catalog">
+      {% for stage in copy.project_management.stages %}
+      <article class="service-capability">
+        <span class="pillar-number">0{{ forloop.counter }}</span>
+        <h3>{{ stage.title }}</h3>
+        <p>{{ stage.text }}</p>
+        {% if stage.result %}<p class="stage-result"><strong>{% if current_lang == 'es' %}Resultado:{% else %}Outcome:{% endif %}</strong> {{ stage.result }}</p>{% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="about-purpose-band reveal">
+  <div class="container">
+    <h2>{{ copy.project_management.differentiation_title }}</h2>
+    <p>{{ copy.project_management.differentiation_text }}</p>
+  </div>
+</section>
+<section class="services-overview reveal">
+  <div class="container services-overview-grid">
+    <h2>{{ copy.project_management.deliverables_title }}</h2>
+    <div><p>{{ copy.project_management.deliverables }}</p></div>
+  </div>
+</section>
+<section class="services-contact reveal">
+  <div class="container services-contact-grid">
+    <h2>{{ copy.project_management.cta }}</h2>
+    <div><p>{{ copy.project_management.cta_text }}</p><a class="btn btn-primary" href="{% url 'home:contact' lang=current_lang %}?interest=project_management">{{ copy.project_management.cta_button }} <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+{% endblock %}

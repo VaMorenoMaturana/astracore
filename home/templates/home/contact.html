@@ -53,15 +53,36 @@
       {{ form.email }}
       {% if form.email.errors %}<p class="field-error">{{ form.email.errors.0 }}</p>{% endif %}
 
+      <label for="id_phone">{{ copy.contact.form.phone }}</label>
+      {{ form.phone }}
+      {% if form.phone.errors %}<p class="field-error">{{ form.phone.errors.0 }}</p>{% endif %}
+
       <label for="id_organization">{{ copy.contact.form.organization }}</label>
       {{ form.organization }}
       {% if form.organization.errors %}<p class="field-error">{{ form.organization.errors.0 }}</p>{% endif %}
 
-      <label for="id_message">{{ copy.contact.form.message }}</label>
+      <label for="id_interest">{{ copy.contact.form.interest }}</label>
+      <div class="interest-select-wrap">
+        {{ form.interest }}
+      </div>
+      {% if form.interest.errors %}<p class="field-error">{{ form.interest.errors.0 }}</p>{% endif %}
+
+      <label for="id_message">{{ copy.contact.form.project_description }}</label>
       {{ form.message }}
       {% if form.message.errors %}<p class="field-error">{{ form.message.errors.0 }}</p>{% endif %}
 
-      <button class="btn btn-primary" type="submit">{{ copy.contact.form.submit }}</button>
+      <div class="privacy-consent-field">
+        <label class="privacy-consent-label" for="id_privacy_consent">
+          {{ form.privacy_consent }}
+          <span>{{ copy.contact.form.privacy_consent_before }} <a href="{% url 'home:privacy' lang=current_lang %}" target="_blank" rel="noopener noreferrer">{{ copy.contact.form.privacy_consent_link }}</a> {{ copy.contact.form.privacy_consent_after }}</span>
+        </label>
+        <p id="privacy-note">{{ copy.contact.form.privacy_note }}</p>
+        {% if form.privacy_consent.errors %}<p class="field-error">{{ form.privacy_consent.errors.0 }}</p>{% endif %}
+      </div>
+
+      <button class="btn btn-primary" type="submit" data-submit-button data-loading-text="{{ copy.contact.form.sending }}">
+        <span data-submit-label>{{ copy.contact.form.submit }}</span>
+      </button>
     </form>
     </div>
   </div>

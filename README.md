@@ -20,13 +20,23 @@ Sitio oficial de Astracore Group. Primera etapa enfocada exclusivamente en la ma
 
 ## Consultas de contacto
 - Las consultas quedan guardadas en la base de datos y se pueden revisar en `/admin/` con una cuenta superusuario.
+- Cada consulta recibe un código numérico único visible en el admin y en las dos notificaciones por correo.
 - Para crear la primera cuenta local: `python manage.py createsuperuser`.
 - En desarrollo, el email se imprime en la consola del servidor.
 - En Render, configura `EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `EMAIL_USE_SSL`, `DEFAULT_FROM_EMAIL` y `CONTACT_EMAIL`.
 - Usa un remitente verificado con tu proveedor SMTP. Guarda las credenciales solo en variables de entorno, nunca en el repositorio.
 - El formulario guarda primero el contacto en Postgres. Si SMTP no está configurado o falla, la consulta permanece en el admin y el error queda en los logs.
+- El formato visual de los correos queda pendiente para una iteración posterior; actualmente las notificaciones son texto plano.
 
 ## Alcance actual
 - Solo secciones institucionales de Astracore Group.
 - Sin publicación de otras divisiones, marcas o iniciativas en esta etapa.
 - Contenido editable y arquitectura preparada para futuras expansiones.
+
+## Revisión antes de publicar la versión 2
+- Solicitar aprobación escrita de cada página y revisión profesional de los textos en inglés, conforme al manual de contenidos.
+- Confirmar la disponibilidad y el alcance de cada servicio, y las habilitaciones aplicables a actividades financieras e inmobiliarias.
+- Las fichas de experiencia quedan pendientes hasta verificar institución, periodo, rol, alcance, entregables y autorizaciones de publicación. La experiencia previa no debe atribuirse como trabajo ejecutado por Astracore.
+- Preparar y aprobar una política de privacidad real antes de agregar su aceptación o recopilar campos adicionales en el formulario de contacto.
+- Las páginas de privacidad y términos son borradores informativos. Antes de publicar, confirmar la razón social/RUT, proveedores que procesan datos, plazos reales de conservación y revisión legal de los textos conforme a la normativa chilena vigente.
+- Confirmar el funcionamiento del correo de notificación en el entorno de producción mediante una prueba controlada.

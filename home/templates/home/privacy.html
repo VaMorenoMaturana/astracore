@@ -1,0 +1,23 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<section class="legal-hero reveal">
+  <div class="container">
+    <p class="legal-date">{{ copy.privacy.updated }}</p>
+    <h1>{{ copy.privacy.title }}</h1>
+    <p>{{ copy.privacy.intro }}</p>
+  </div>
+</section>
+
+<section class="legal-content reveal">
+  <div class="container legal-content-inner">
+    {% for section in copy.privacy.sections %}
+    <article class="legal-section">
+      <h2>{{ section.title }}</h2>
+      {% for paragraph in section.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+      {% if section.items %}<ul>{% for item in section.items %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

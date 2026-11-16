@@ -23,6 +23,23 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
 const header = document.querySelector('[data-header]');
 const menuToggle = document.querySelector('[data-menu-toggle]');
 const mainNav = document.querySelector('[data-main-nav]');
+const contactForm = document.querySelector('.contact-form');
+
+if (contactForm) {
+  const submitButton = contactForm.querySelector('[data-submit-button]');
+  const submitLabel = contactForm.querySelector('[data-submit-label]');
+
+  contactForm.addEventListener('submit', () => {
+    if (!submitButton || !submitLabel) {
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.setAttribute('aria-busy', 'true');
+    contactForm.setAttribute('aria-busy', 'true');
+    submitLabel.textContent = submitButton.dataset.loadingText;
+  });
+}
 
 if (menuToggle && mainNav) {
   menuToggle.addEventListener('click', () => {

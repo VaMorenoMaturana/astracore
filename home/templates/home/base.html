@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ copy.site_title }}</title>
-  <meta name="description" content="{{ copy.meta_description }}">
-  <meta property="og:title" content="{{ copy.site_title }}">
-  <meta property="og:description" content="{{ copy.meta_description }}">
+  <title>{{ seo_title }}</title>
+  <meta name="description" content="{{ seo_description }}">
+  <meta property="og:title" content="{{ seo_title }}">
+  <meta property="og:description" content="{{ seo_description }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://astracore.cl{{ request.path }}">
   <meta name="theme-color" content="#182334">
@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'home/css/style.css' %}?v=20261113-17">
+  <link rel="stylesheet" href="{% static 'home/css/style.css' %}?v=20261115-8">
   {% block head_extra %}{% endblock %}
 </head>
 <body{% if current_view == 'home' %} class="home-page"{% endif %}>
@@ -41,6 +41,10 @@
               <a href="{% url 'home:about' lang=current_lang %}" {% if current_view == 'about' %}class="active"{% endif %}>{{ copy.nav.about }}</a>
             {% elif item.key == 'services' %}
               <a href="{% url 'home:services' lang=current_lang %}" {% if current_view == 'services' %}class="active"{% endif %}>{{ copy.nav.services }}</a>
+            {% elif item.key == 'projects' %}
+              <a href="{% url 'home:projects' lang=current_lang %}" {% if current_view == 'projects' %}class="active"{% endif %}>{{ copy.nav.projects }}</a>
+            {% elif item.key == 'approach' %}
+              <a href="{% url 'home:approach' lang=current_lang %}" {% if current_view == 'approach' %}class="active"{% endif %}>{{ copy.nav.approach }}</a>
             {% elif item.key == 'contact' %}
               <a href="{% url 'home:contact' lang=current_lang %}" {% if current_view == 'contact' %}class="active"{% endif %}>{{ copy.nav.contact }}</a>
             {% endif %}
@@ -53,6 +57,18 @@
           {% elif current_view == 'services' %}
             <a href="{% url 'home:services' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:services' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% elif current_view == 'projects' %}
+            <a href="{% url 'home:projects' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:projects' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% elif current_view == 'approach' %}
+            <a href="{% url 'home:approach' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:approach' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% elif current_view == 'privacy' %}
+            <a href="{% url 'home:privacy' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:privacy' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+          {% elif current_view == 'terms' %}
+            <a href="{% url 'home:terms' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
+            <a href="{% url 'home:terms' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
           {% elif current_view == 'contact' %}
             <a href="{% url 'home:contact' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:contact' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
@@ -76,6 +92,7 @@
             <div>
               <p class="footer-name">Astracore Group</p>
               <p class="footer-statement">{{ brand_statement }}</p>
+              <p class="footer-description">{{ copy.footer_description }}</p>
             </div>
           </div>
 
@@ -84,7 +101,11 @@
             <a href="{% url 'home:home' lang=current_lang %}">{{ copy.nav.home }}</a>
             <a href="{% url 'home:about' lang=current_lang %}">{{ copy.nav.about }}</a>
             <a href="{% url 'home:services' lang=current_lang %}">{{ copy.nav.services }}</a>
+            <a href="{% url 'home:projects' lang=current_lang %}">{{ copy.nav.projects }}</a>
             <a href="{% url 'home:contact' lang=current_lang %}">{{ copy.nav.contact }}</a>
+            <p class="footer-subhead">{{ copy.footer_legal_title }}</p>
+            <a href="{% url 'home:privacy' lang=current_lang %}">{{ copy.privacy.title }}</a>
+            <a href="{% url 'home:terms' lang=current_lang %}">{{ copy.terms.title }}</a>
           </nav>
 
           <div class="footer-column">
@@ -106,6 +127,6 @@
       </div>
     </footer>
   </div>
-  <script src="{% static 'home/js/main.js' %}?v=20261112" defer></script>
+  <script src="{% static 'home/js/main.js' %}?v=20261115-1" defer></script>
 </body>
 </html>

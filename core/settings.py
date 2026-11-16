@@ -39,6 +39,16 @@ if not DEBUG and RENDER_EXTERNAL_HOSTNAME:
     render_origin = f"https://{RENDER_EXTERNAL_HOSTNAME}"
     if render_origin not in CSRF_TRUSTED_ORIGINS:
         CSRF_TRUSTED_ORIGINS.append(render_origin)
+if not DEBUG:
+    for host in ALLOWED_HOSTS:
+        if host.startswith("."):
+            origin = f"https://*{host}"
+        elif "*" not in host:
+            origin = f"https://{host}"
+        else:
+            continue
+        if origin not in CSRF_TRUSTED_ORIGINS:
+            CSRF_TRUSTED_ORIGINS.append(origin)
 
 INSTALLED_APPS = [
     "django.contrib.admin",

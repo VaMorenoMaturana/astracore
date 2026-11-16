@@ -33,15 +33,22 @@
       </div>
       <p>{{ copy.services.capabilities_lead }}</p>
     </div>
-    <div class="service-capability-grid">
-    {% for card in copy.services.cards %}
+    <div class="service-catalog">
+    {% for card in copy.services.catalog %}
     <article class="service-capability">
       <span class="pillar-number">0{{ forloop.counter }}</span>
       <h3>{{ card.title }}</h3>
-      <p>{{ card.text }}</p>
+      <p class="service-headline">{{ card.headline }}</p>
+      <p>{{ card.description }}</p>
+      <details class="service-details">
+        <summary>{{ copy.services.detail_label }}</summary>
+        <ul>{% for item in card.items %}<li>{{ item }}</li>{% endfor %}</ul>
+      </details>
+      <a class="text-link" href="{% url 'home:contact' lang=current_lang %}?interest={{ card.interest }}">{{ copy.services.hero_cta }} <span aria-hidden="true">→</span></a>
     </article>
     {% endfor %}
     </div>
+    <p class="service-availability-note">{{ copy.services.availability_note }}</p>
   </div>
 </section>
 

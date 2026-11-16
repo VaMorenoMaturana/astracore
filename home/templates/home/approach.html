@@ -1,0 +1,37 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<section class="services-hero reveal">
+  <div class="container services-hero-content">
+    <p class="services-eyebrow">{{ copy.approach.eyebrow }}</p>
+    <h1>{{ copy.approach.title }}</h1>
+    <span class="about-rule" aria-hidden="true"></span>
+    <p>{{ copy.approach.intro }}</p>
+  </div>
+</section>
+
+<section class="section section-alt reveal">
+  <div class="container">
+    <p class="section-kicker">{{ copy.approach.eyebrow }}</p>
+    <div class="approach-stage-grid">
+      {% for stage in copy.approach.stages %}
+      <article class="service-capability">
+        <span class="pillar-number">0{{ forloop.counter }}</span>
+        <h2>{{ stage.title }}</h2>
+        <p>{{ stage.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="services-contact reveal">
+  <div class="container services-contact-grid">
+    <h2>{{ copy.approach.closing_title }}</h2>
+    <div>
+      <p>{{ copy.approach.closing_text }}</p>
+      <a class="btn btn-primary" href="{% url 'home:contact' lang=current_lang %}">{{ copy.approach.contact_link }} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}
