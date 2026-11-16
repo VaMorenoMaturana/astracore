@@ -16,7 +16,7 @@ class InstitutionalContentTests(SimpleTestCase):
         self.assertTrue(response["Content-Type"].startswith("text/plain"))
         self.assertEqual(
             response.content.decode(),
-            "User-agent: *\nAllow: /\n\nSitemap: https://astracore.cl/sitemap.xml",
+            "User-agent: *\nAllow: /\n\nSitemap: https://www.astracore.cl/sitemap.xml",
         )
 
     @override_settings(ALLOWED_HOSTS=["astracore.cl"])
