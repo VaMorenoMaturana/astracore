@@ -9,6 +9,9 @@ class PublicPagesSitemap(Sitemap):
     changefreq = "monthly"
     priority = 0.7
 
+    def get_domain(self, site=None):
+        return "www.astracore.cl"
+
     page_names = (
         "home",
         "about",

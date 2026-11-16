@@ -19,9 +19,8 @@ class InstitutionalContentTests(SimpleTestCase):
             "User-agent: *\nAllow: /\n\nSitemap: https://www.astracore.cl/sitemap.xml",
         )
 
-    @override_settings(ALLOWED_HOSTS=["astracore.cl"])
     def test_sitemap_lists_each_public_page_in_all_languages(self):
-        response = self.client.get(reverse("sitemap"), HTTP_HOST="astracore.cl")
+        response = self.client.get(reverse("sitemap"))
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response["Content-Type"].startswith("application/xml"))
         root = ElementTree.fromstring(response.content)
@@ -31,7 +30,7 @@ class InstitutionalContentTests(SimpleTestCase):
             for element in root.findall(f"{namespace}url/{namespace}loc")
         ]
         self.assertEqual(len(locations), 24)
-        self.assertTrue(all(location.startswith("https://astracore.cl/") for location in locations))
+        self.assertTrue(all(location.startswith("https://www.astracore.cl/") for location in locations))
         paths = {urlparse(location).path for location in locations}
         for language in ("es", "en", "zh"):
             for page in ("home", "about", "services", "projects", "approach", "contact", "privacy", "terms"):
@@ -54,6 +53,28 @@ class InstitutionalContentTests(SimpleTestCase):
                     self.assertNotContains(response, "CEDAR", status_code=200)
                     self.assertNotContains(response, "Wellness Group", status_code=200)
                     self.assertNotContains(response, "holding", status_code=200)
+
+    def test_localized_pages_have_canonical_and_hreflang_links(self):
+        hreflang_codes = {"es": "es", "en": "en", "zh": "zh-Hans"}
+        page_names = ("home", "about", "services", "projects", "approach", "contact", "privacy", "terms")
+        for page_name in page_names:
+            urls = {
+                language: f"https://www.astracore.cl{reverse(f'home:{page_name}', kwargs={'lang': language})}"
+                for language in hreflang_codes
+            }
+            for language, code in hreflang_codes.items():
+                with self.subTest(page=page_name, language=language):
+                    response = self.client.get(reverse(f"home:{page_name}", kwargs={"lang": language}))
+                    self.assertContains(response, f'<link rel="canonical" href="{urls[language]}">')
+                    for alternate_language, alternate_code in hreflang_codes.items():
+                        self.assertContains(
+                            response,
+                            f'<link rel="alternate" hreflang="{alternate_code}" href="{urls[alternate_language]}">',
+                        )
+                    self.assertContains(
+                        response,
+                        f'<link rel="alternate" hreflang="x-default" href="{urls["es"]}">',
+                    )
 
     def test_home_describes_astracore_as_a_company(self):
         response = self.client.get(reverse("home:home", kwargs={"lang": "es"}))
