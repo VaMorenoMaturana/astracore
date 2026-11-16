@@ -1,3 +1,7 @@
+from .chinese_copy import ZH_LEGAL_COPY
+from .localization import localized_copy
+
+
 LEGAL_COPY = {
     "es": {
         "privacy": {
@@ -155,3 +159,5 @@ LEGAL_COPY = {
         },
     },
 }
+
+LEGAL_COPY["zh"] = localized_copy(LEGAL_COPY["en"], ZH_LEGAL_COPY)

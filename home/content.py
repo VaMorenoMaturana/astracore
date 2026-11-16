@@ -1,7 +1,10 @@
 from dataclasses import dataclass
 
+from .chinese_copy import ZH_SITE_COPY
+from .localization import localized_copy
 
-SUPPORTED_LANGS = {"es", "en"}
+
+SUPPORTED_LANGS = {"es", "en", "zh"}
 
 
 @dataclass(frozen=True)
@@ -37,6 +40,17 @@ SITE_COPY = {
             "projects": "Gestión de proyectos",
             "approach": "Nuestro enfoque",
             "contact": "Contacto",
+        },
+        "accessibility": {
+            "skip_to_content": "Ir al contenido",
+            "menu": "Menú de navegación",
+            "main_navigation": "Navegación principal",
+            "language": "Idioma",
+            "footer_navigation": "Navegación del pie de página",
+            "instagram": "Instagram de Astracore Group, abre en una pestaña nueva",
+            "linkedin": "LinkedIn de Astracore Group, abre en una pestaña nueva",
+            "linkedin_profile": "LinkedIn de",
+            "opens_new_tab": "abre en una pestaña nueva",
         },
         "footer_legal": "Astracore Group. Todos los derechos reservados.",
         "footer_description": "Astracore Group integra consultoría especializada, desarrollo empresarial y gestión de proyectos para acompañar iniciativas con visión estratégica y capacidad de ejecución.",
@@ -317,6 +331,17 @@ SITE_COPY = {
             "approach": "Our approach",
             "contact": "Contact",
         },
+        "accessibility": {
+            "skip_to_content": "Skip to content",
+            "menu": "Navigation menu",
+            "main_navigation": "Main navigation",
+            "language": "Language",
+            "footer_navigation": "Footer navigation",
+            "instagram": "Astracore Group on Instagram (opens in a new tab)",
+            "linkedin": "Astracore Group on LinkedIn (opens in a new tab)",
+            "linkedin_profile": "LinkedIn profile for",
+            "opens_new_tab": "opens in a new tab",
+        },
         "footer_legal": "Astracore Group. All rights reserved.",
         "footer_description": "Astracore Group brings together specialized consulting, business development and project management to support initiatives with strategic vision and execution capability.",
         "footer_menu_title": "Explore",
@@ -449,24 +474,28 @@ SITE_COPY = {
             "catalog": [
                 {
                     "title": "Environment, natural resources and sustainability",
+                    "interest": "environment",
                     "headline": "Legal, regulatory and strategic analysis for responsible environmental management.",
                     "description": "We support businesses, institutions and organizations in analyzing and managing environmental, regulatory and territorial challenges. We bring together legal knowledge, background review and institutional coordination to support responsible decisions and sustainability-focused projects.",
                     "items": ["Environmental and natural resources law.", "Environmental regulatory analysis.", "Water resources management and governance.", "Sustainability and organizational environmental management.", "Environmental risk and contingency assessment.", "Territorial and socio-environmental analysis."],
                 },
                 {
                     "title": "Project structuring and assessment",
+                    "interest": "project_structuring",
                     "headline": "Formulation, assessment and planning of initiatives.",
                     "description": "We support the identification, formulation and structuring of projects from strategic, economic and institutional perspectives. We help organize objectives, assess alternatives, identify resources and risks, and define conditions for viable implementation.",
                     "items": ["Opportunity identification and assessment.", "Project formulation and design.", "Preliminary viability and pre-feasibility assessment.", "Strategic and operational planning.", "Budget and resource structuring.", "Identification of funding sources.", "Funding applications and program submissions.", "Initiative coordination and monitoring."],
                 },
                 {
                     "title": "Logistics, business and territorial development",
+                    "interest": "logistics_territorial",
                     "headline": "Productive connectivity, coordination and territorial development.",
                     "description": "We advance initiatives that strengthen collaboration among businesses, suppliers, institutions and territorial stakeholders. We design and coordinate engagement, participatory processes and actions that develop capabilities and value chains.",
                     "items": ["Supplier development and strengthening.", "Value chain coordination.", "Business and institutional engagement.", "Productive development program management.", "Business meetings and networking events.", "Productive ecosystem assessments.", "Business capability development."],
                 },
                 {
                     "title": "Real estate and investment project development",
+                    "interest": "real_estate_investment",
                     "headline": "Analysis, assessment and coordination of development initiatives.",
                     "description": "We support the analysis and structuring of real estate initiatives and investment projects, bringing together legal, territorial, regulatory and strategic information. We coordinate required professional capabilities to support assessment and orderly progress.",
                     "items": ["Preliminary analysis of real estate opportunities.", "Legal and regulatory background review.", "Territorial and regulatory analysis.", "Preliminary investment project assessment.", "Identification of constraints and opportunities.", "Professional and specialist coordination.", "Initiative structuring and monitoring."],
@@ -570,3 +599,5 @@ SITE_COPY = {
         },
     },
 }
+
+SITE_COPY["zh"] = localized_copy(SITE_COPY["en"], ZH_SITE_COPY)

@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="{{ current_lang }}">
+<html lang="{% if current_lang == 'zh' %}zh-Hans{% else %}{{ current_lang }}{% endif %}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,12 +14,12 @@
   <link rel="icon" type="image/png" href="{% static 'home/images/Logos/logo-cabecera.png' %}?v=20261113">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'home/css/style.css' %}?v=20261115-8">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/css/style.css' %}?v=20261115-9">
   {% block head_extra %}{% endblock %}
 </head>
 <body{% if current_view == 'home' %} class="home-page"{% endif %}>
-  <a class="skip-link" href="#main-content">{% if current_lang == 'es' %}Ir al contenido{% else %}Skip to content{% endif %}</a>
+  <a class="skip-link" href="#main-content">{{ copy.accessibility.skip_to_content }}</a>
   <div class="site-shell">
     <header class="site-header" data-header>
       <div class="container nav-wrap">
@@ -30,10 +30,10 @@
             <span class="brand-tagline">{{ brand_statement }}</span>
           </span>
         </a>
-        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="{% if current_lang == 'es' %}Menú de navegación{% else %}Navigation menu{% endif %}">
+        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="{{ copy.accessibility.menu }}">
           <span></span><span></span><span></span>
         </button>
-        <nav id="main-nav" class="main-nav" data-main-nav aria-label="{% if current_lang == 'es' %}Navegación principal{% else %}Main navigation{% endif %}">
+        <nav id="main-nav" class="main-nav" data-main-nav aria-label="{{ copy.accessibility.main_navigation }}">
           {% for item in nav_items %}
             {% if item.key == 'home' %}
               <a href="{% url 'home:home' lang=current_lang %}" {% if current_view == 'home' %}class="active"{% endif %}>{{ copy.nav.home }}</a>
@@ -50,31 +50,39 @@
             {% endif %}
           {% endfor %}
         </nav>
-        <div class="lang-switch" aria-label="{% if current_lang == 'es' %}Idioma{% else %}Language{% endif %}">
+        <div class="lang-switch" aria-label="{{ copy.accessibility.language }}">
           {% if current_view == 'about' %}
             <a href="{% url 'home:about' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:about' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:about' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% elif current_view == 'services' %}
             <a href="{% url 'home:services' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:services' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:services' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% elif current_view == 'projects' %}
             <a href="{% url 'home:projects' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:projects' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:projects' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% elif current_view == 'approach' %}
             <a href="{% url 'home:approach' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:approach' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:approach' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% elif current_view == 'privacy' %}
             <a href="{% url 'home:privacy' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:privacy' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:privacy' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% elif current_view == 'terms' %}
             <a href="{% url 'home:terms' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:terms' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:terms' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% elif current_view == 'contact' %}
             <a href="{% url 'home:contact' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:contact' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:contact' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% else %}
             <a href="{% url 'home:home' lang='es' %}" {% if current_lang == 'es' %}class="active"{% endif %}>ES</a>
             <a href="{% url 'home:home' lang='en' %}" {% if current_lang == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="{% url 'home:home' lang='zh' %}" {% if current_lang == 'zh' %}class="active"{% endif %}>中文</a>
           {% endif %}
         </div>
       </div>
@@ -96,7 +104,7 @@
             </div>
           </div>
 
-          <nav class="footer-column" aria-label="{% if current_lang == 'es' %}Navegación del pie de página{% else %}Footer navigation{% endif %}">
+          <nav class="footer-column" aria-label="{{ copy.accessibility.footer_navigation }}">
             <h2>{{ copy.footer_menu_title }}</h2>
             <a href="{% url 'home:home' lang=current_lang %}">{{ copy.nav.home }}</a>
             <a href="{% url 'home:about' lang=current_lang %}">{{ copy.nav.about }}</a>
@@ -110,8 +118,8 @@
 
           <div class="footer-column">
             <h2>{{ copy.footer_social_title }}</h2>
-            <a class="footer-social" href="https://www.instagram.com/astra.core9/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Astracore Group, abre en una pestaña nueva"><b aria-hidden="true">ig</b>Instagram</a>
-            <a class="footer-social" href="https://www.linkedin.com/in/astracore-spa-83016a449/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Astracore Group, abre en una pestaña nueva"><b aria-hidden="true">in</b>LinkedIn</a>
+            <a class="footer-social" href="https://www.instagram.com/astra.core9/" target="_blank" rel="noopener noreferrer" aria-label="{{ copy.accessibility.instagram }}"><b aria-hidden="true">ig</b>Instagram</a>
+            <a class="footer-social" href="https://www.linkedin.com/in/astracore-spa-83016a449/" target="_blank" rel="noopener noreferrer" aria-label="{{ copy.accessibility.linkedin }}"><b aria-hidden="true">in</b>LinkedIn</a>
           </div>
 
           <div class="footer-column footer-contact">

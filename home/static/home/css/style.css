@@ -1,5 +1,7 @@
 :root { --ink: #182334; --steel: #5b667a; --sky: #7e9dc1; --silver: #d4d7db; --paper: #fdf8f4; }
 * { box-sizing: border-box; }
+html[lang="zh-Hans"] body { font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+html[lang="zh-Hans"] h1, html[lang="zh-Hans"] h2, html[lang="zh-Hans"] h3 { font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; }
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--ink); background: white; font-family: "Montserrat", sans-serif; line-height: 1.7; }
 a { color: inherit; text-decoration: none; }

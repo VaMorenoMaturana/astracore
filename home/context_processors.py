@@ -14,7 +14,7 @@ def brand_context(request):
     return {
         "brand_name": "Astracore Group",
         "brand_statement": copy["brand_statement"],
-        "supported_langs": ("es", "en"),
+        "supported_langs": ("es", "en", "zh"),
         "nav_items": NAV_ITEMS,
         "copy": copy,
         "current_lang": lang,

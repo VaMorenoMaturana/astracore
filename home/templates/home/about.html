@@ -69,7 +69,7 @@
         <div class="founder-info">
           <p>{{ founder.role }}</p>
           <h3>{{ founder.name }}</h3>
-          <a class="founder-linkedin" href="{{ founder.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{% if current_lang == 'es' %}LinkedIn de {{ founder.name }} (abre en una pestaña nueva){% else %}{{ founder.name }} on LinkedIn (opens in a new tab){% endif %}"><span aria-hidden="true">in</span> LinkedIn</a>
+          <a class="founder-linkedin" href="{{ founder.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ copy.accessibility.linkedin_profile }} {{ founder.name }} ({{ copy.accessibility.opens_new_tab }})"><span aria-hidden="true">in</span> LinkedIn</a>
         </div>
         {% if founder.biography %}<p class="founder-biography">{{ founder.biography }}</p>{% endif %}
       </article>

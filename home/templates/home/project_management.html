@@ -20,7 +20,7 @@
         <span class="pillar-number">0{{ forloop.counter }}</span>
         <h3>{{ stage.title }}</h3>
         <p>{{ stage.text }}</p>
-        {% if stage.result %}<p class="stage-result"><strong>{% if current_lang == 'es' %}Resultado:{% else %}Outcome:{% endif %}</strong> {{ stage.result }}</p>{% endif %}
+        {% if stage.result %}<p class="stage-result"><strong>{% if current_lang == 'es' %}Resultado:{% elif current_lang == 'zh' %}成果：{% else %}Outcome:{% endif %}</strong> {{ stage.result }}</p>{% endif %}
       </article>
       {% endfor %}
     </div>

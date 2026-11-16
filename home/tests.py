@@ -1,4 +1,6 @@
 import re
+from xml.etree import ElementTree
+from urllib.parse import urlparse
 
 from django.core import mail
 from django.test import SimpleTestCase, TestCase, override_settings
@@ -8,13 +10,38 @@ from .models import ContactLead
 
 
 class InstitutionalContentTests(SimpleTestCase):
+    @override_settings(ALLOWED_HOSTS=["astracore.cl"])
+    def test_sitemap_lists_each_public_page_in_all_languages(self):
+        response = self.client.get(reverse("sitemap"), HTTP_HOST="astracore.cl")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response["Content-Type"].startswith("application/xml"))
+        root = ElementTree.fromstring(response.content)
+        namespace = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+        locations = [
+            element.text
+            for element in root.findall(f"{namespace}url/{namespace}loc")
+        ]
+        self.assertEqual(len(locations), 24)
+        self.assertTrue(all(location.startswith("https://astracore.cl/") for location in locations))
+        paths = {urlparse(location).path for location in locations}
+        for language in ("es", "en", "zh"):
+            for page in ("home", "about", "services", "projects", "approach", "contact", "privacy", "terms"):
+                with self.subTest(language=language, page=page):
+                    self.assertIn(
+                        reverse(f"home:{page}", kwargs={"lang": language}),
+                        paths,
+                    )
+
     def test_public_pages_render_in_both_languages(self):
-        for language in ("es", "en"):
+        for language in ("es", "en", "zh"):
             for name in ("home", "about", "services", "projects", "approach", "contact", "privacy", "terms"):
                 with self.subTest(language=language, page=name):
                     response = self.client.get(reverse(f"home:{name}", kwargs={"lang": language}))
                     self.assertEqual(response.status_code, 200)
-                    self.assertContains(response, f'<html lang="{language}">')
+                    html_language = "zh-Hans" if language == "zh" else language
+                    self.assertContains(response, f'<html lang="{html_language}">')
+                    if language == "zh":
+                        self.assertContains(response, "中文")
                     self.assertNotContains(response, "CEDAR", status_code=200)
                     self.assertNotContains(response, "Wellness Group", status_code=200)
                     self.assertNotContains(response, "holding", status_code=200)
@@ -69,13 +96,35 @@ class InstitutionalContentTests(SimpleTestCase):
         self.assertEqual(response.context["form"]["interest"].value(), "project_management")
 
     def test_project_management_has_six_stages(self):
-        for language in ("es", "en"):
+        for language in ("es", "en", "zh"):
             with self.subTest(language=language):
                 response = self.client.get(reverse("home:projects", kwargs={"lang": language}))
                 self.assertContains(response, 'class="service-capability"', count=6)
                 self.assertContains(response, 'class="stage-result"', count=6)
                 self.assertContains(response, reverse("home:projects", kwargs={"lang": "en"}))
                 self.assertContains(response, reverse("home:projects", kwargs={"lang": "es"}))
+                self.assertContains(response, reverse("home:projects", kwargs={"lang": "zh"}))
+
+    def test_chinese_contact_form_uses_simplified_chinese_choices(self):
+        response = self.client.get(reverse("home:contact", kwargs={"lang": "zh"}))
+        self.assertContains(response, "请选择感兴趣的领域")
+        self.assertContains(response, "环境与可持续发展")
+        self.assertContains(response, "手机号码（选填）")
+        choices = response.context["form"].fields["interest"].choices
+        self.assertEqual([value for value, _ in choices[1:]], [
+            "environment",
+            "project_structuring",
+            "logistics_territorial",
+            "real_estate_investment",
+            "project_management",
+            "business_development",
+            "other",
+        ])
+
+        response = self.client.post(reverse("home:contact", kwargs={"lang": "zh"}), {})
+        self.assertContains(response, "此项为必填项。")
+        self.assertContains(response, "请先勾选并同意隐私政策。")
+        self.assertNotContains(response, "Este campo es obligatorio.")
 
     def test_legacy_services_url_redirects(self):
         response = self.client.get(reverse("home:approach_legacy", kwargs={"lang": "es"}))
@@ -133,6 +182,24 @@ class ContactWorkflowTests(TestCase):
         self.assertEqual(mail.outbox[1].to, ["consulta@example.com"])
         self.assertEqual(mail.outbox[1].reply_to, ["contacto@example.com"])
         self.assertIn(lead.consultation_code, mail.outbox[1].body)
+
+    def test_chinese_inquiry_gets_a_chinese_confirmation(self):
+        response = self.client.post(
+            reverse("home:contact", kwargs={"lang": "zh"}),
+            {
+                "full_name": "测试联系人",
+                "email": "consulta@example.com",
+                "organization": "测试机构",
+                "interest": "environment",
+                "message": "咨询项目合作",
+                "privacy_consent": "on",
+            },
+        )
+        self.assertRedirects(response, reverse("home:contact", kwargs={"lang": "zh"}))
+        lead = ContactLead.objects.get()
+        self.assertEqual(lead.language, "zh")
+        self.assertIn("我们已收到您的咨询", mail.outbox[1].subject)
+        self.assertIn("咨询编号", mail.outbox[1].body)
 
     def test_each_inquiry_gets_a_different_code(self):
         payload = {
